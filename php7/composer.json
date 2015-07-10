@@ -1,0 +1,23 @@
+{
+  "name": "petrepatrasc/design-patterns",
+  "description": "A collection of design pattern implementations in PHP",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "PetrePatrasc\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Petre Pătrașc",
+      "email": "petre@dreamlabs.ro"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "dev-master"
+  },
+  "config": {
+    "bin-dir": "bin"
+  }
+}
