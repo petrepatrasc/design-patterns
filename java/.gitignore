@@ -1,0 +1,8 @@
+bin
+docs
+target
+*.iml
+.classpath
+.project
+.settings
+.tmp
