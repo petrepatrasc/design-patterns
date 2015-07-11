@@ -14,9 +14,9 @@ class LineManager extends AbstractLoanAgent
     /**
      * @inheritDoc
      */
-    public function handleLoanAmount(LoanApplicationRequest $loanAmount): LoanApplicationResponse
+    public function handleLoanAmount(LoanApplicationRequest $loanRequest): LoanApplicationResponse
     {
-        if ($loanAmount->getAmount() < 20000) {
+        if ($loanRequest->getAmount() < 20000) {
             return $this->approveLoanRequest();
         }
 

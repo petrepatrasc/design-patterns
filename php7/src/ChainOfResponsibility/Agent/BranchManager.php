@@ -14,13 +14,13 @@ class BranchManager extends AbstractLoanAgent
     /**
      * @inheritDoc
      */
-    public function handleLoanAmount(LoanApplicationRequest $loanAmount): LoanApplicationResponse
+    public function handleLoanAmount(LoanApplicationRequest $loanRequest): LoanApplicationResponse
     {
-        if ($loanAmount->getAmount() < 10000) {
+        if ($loanRequest->getAmount() < 10000) {
             return $this->approveLoanRequest();
         }
 
-        return $this->getNextInChain()->handleLoanAmount($loanAmount);
+        return $this->getNextInChain()->handleLoanAmount($loanRequest);
     }
 
 }

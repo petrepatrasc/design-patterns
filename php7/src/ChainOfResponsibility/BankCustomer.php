@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace PetrePatrasc\ChainOfResponsibility;
 
 use PetrePatrasc\ChainOfResponsibility\Bank\LoanSystem;
+use PetrePatrasc\ChainOfResponsibility\Bank\LoanSystemBuilder;
 
 /**
  * A representation of the bank customer that wants to apply for a loan.
@@ -27,9 +28,8 @@ class BankCustomer implements BankCustomerInterface
     /**
      * @inheritDoc
      */
-    public function applyForLoan(float $amount): LoanApplicationResponse
+    public function applyForLoan(float $amount, LoanSystem $loanSystem): LoanApplicationResponse
     {
-        $loanSystem = new LoanSystem();
         $loanRequest = new LoanApplicationRequest($this, $amount);
 
         return $loanSystem->resolveLoanRequest($loanRequest);

@@ -14,12 +14,12 @@ class TillAgent extends AbstractLoanAgent
     /**
      * @inheritDoc
      */
-    public function handleLoanAmount(LoanApplicationRequest $loanAmount): LoanApplicationResponse
+    public function handleLoanAmount(LoanApplicationRequest $loanRequest): LoanApplicationResponse
     {
-        if ($loanAmount->getAmount() < 5000) {
+        if ($loanRequest->getAmount() < 5000) {
             return $this->approveLoanRequest();
         }
 
-        return $this->getNextInChain()->handleLoanAmount($loanAmount);
+        return $this->getNextInChain()->handleLoanAmount($loanRequest);
     }
 }

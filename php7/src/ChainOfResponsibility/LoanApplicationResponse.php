@@ -19,7 +19,7 @@ class LoanApplicationResponse
     /**
      * @var bool
      */
-    protected $accepted;
+    protected $approved;
 
     /**
      * @var AbstractLoanAgent
@@ -27,21 +27,33 @@ class LoanApplicationResponse
     protected $agent;
 
     /**
-     * @return bool
+     * LoanApplicationResponse constructor.
+     *
+     * @param AbstractLoanAgent $agent
+     * @param bool $approved
      */
-    public function isAccepted(): bool
+    public function __construct(AbstractLoanAgent $agent = null, bool $approved = false)
     {
-        return $this->accepted;
+        $this->agent = $agent;
+        $this->approved = $approved;
     }
 
     /**
-     * @param bool $accepted
+     * @return bool
+     */
+    public function isApproved(): bool
+    {
+        return $this->approved;
+    }
+
+    /**
+     * @param bool $approved
      *
      * @return LoanApplicationResponse
      */
-    public function setAccepted(bool $accepted): LoanApplicationResponse
+    public function setApproved(bool $approved): LoanApplicationResponse
     {
-        $this->accepted = $accepted;
+        $this->approved = $approved;
 
         return $this;
     }

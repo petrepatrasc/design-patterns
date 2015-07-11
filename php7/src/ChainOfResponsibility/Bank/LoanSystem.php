@@ -67,7 +67,7 @@ class LoanSystem
     /**
      * @return AbstractLoanAgent
      */
-    protected function getFirstInChain(): AbstractLoanAgent
+    public function getFirstInChain(): AbstractLoanAgent
     {
         return $this->firstInChain;
     }
@@ -77,7 +77,7 @@ class LoanSystem
      *
      * @return LoanSystem
      */
-    protected function setFirstInChain(AbstractLoanAgent $firstInChain): LoanSystem
+    public function setFirstInChain(AbstractLoanAgent $firstInChain): LoanSystem
     {
         $this->firstInChain = $firstInChain;
 

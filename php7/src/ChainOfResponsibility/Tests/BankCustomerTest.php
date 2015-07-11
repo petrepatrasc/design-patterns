@@ -4,7 +4,12 @@ declare(strict_types = 1);
 
 namespace PetrePatrasc\ChainOfResponsibility\Tests;
 
+use PetrePatrasc\ChainOfResponsibility\Agent\AbstractLoanAgent;
+use PetrePatrasc\ChainOfResponsibility\Agent\BranchManager;
+use PetrePatrasc\ChainOfResponsibility\Agent\LineManager;
+use PetrePatrasc\ChainOfResponsibility\Agent\TillAgent;
 use PetrePatrasc\ChainOfResponsibility\BankCustomer;
+use PetrePatrasc\ChainOfResponsibility\LoanApplicationResponse;
 
 class BankCustomerTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,65 +26,40 @@ class BankCustomerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param float  $loanAmount
-     * @param bool   $expectedAcceptance
-     * @param string $expectedAgentInstance
+     * @param float $loanAmount
+     * @param AbstractLoanAgent $expectedAgent
+     * @param bool $expectedApprovalStatus
      *
      * @dataProvider loanApplicationDataProvider
      */
-    public function testApplyForLoan(float $loanAmount, bool $expectedAcceptance, string $expectedAgentInstance)
+    public function testApplyForLoan(float $loanAmount, AbstractLoanAgent $expectedAgent, bool $expectedApprovalStatus)
     {
-        $loanApprovalResult = $this->bankCustomer->applyForLoan($loanAmount);
+        $expectedLoanResponse = new LoanApplicationResponse($expectedAgent, $expectedApprovalStatus);
 
-        $this->assertNotNull($loanApprovalResult);
-        $this->assertInstanceOf('\PetrePatrasc\ChainOfResponsibility\LoanApplicationResponse', $loanApprovalResult);
+        $loanSystemMock = $this->getMockBuilder('PetrePatrasc\ChainOfResponsibility\Bank\LoanSystem')
+            ->setMethods(['resolveLoanRequest'])
+            ->getMock();
+        $loanSystemMock->expects($this->atLeastOnce())->method('resolveLoanRequest')->willReturn($expectedLoanResponse);
 
-        $this->assertInternalType('bool', $loanApprovalResult->isAccepted());
-        $this->assertEquals($expectedAcceptance, $loanApprovalResult->isAccepted());
+        $actualLoanResponse = $this->bankCustomer->applyForLoan($loanAmount, $loanSystemMock);
 
-        $this->assertNotNull($loanApprovalResult->getAgent());
-        $this->assertInstanceOf($expectedAgentInstance, $loanApprovalResult->getAgent());
+        $this->assertNotNull($actualLoanResponse, 'No loan response received.');
+        $this->assertEquals($expectedLoanResponse, $actualLoanResponse, 'Loan response was different than expected.');
     }
 
-    public function loanApplicationDataProvider()
-    {
-        $tillAgent     = '\PetrePatrasc\ChainOfResponsibility\Agent\TillAgent';
-        $branchManager = '\PetrePatrasc\ChainOfResponsibility\Agent\BranchManager';
-        $lineManager   = '\PetrePatrasc\ChainOfResponsibility\Agent\LineManager';
-
-        return [
-            [32.20, true, $tillAgent],
-            [320, true, $tillAgent],
-            [4999.99, true, $tillAgent],
-            [5000, true, $branchManager],
-            [9000, true, $branchManager],
-            [9999.99, true, $branchManager],
-            [10000, true, $lineManager],
-            [15000.807, true, $lineManager],
-            [19999.99, true, $lineManager],
-            [20000, false, $lineManager],
-            [30000, false, $lineManager],
-        ];
-    }
-
-    /**
-     * @param mixed $loanAmount
-     *
-     * @expectedException TypeError
-     *
-     * @dataProvider typeErrorDataProvider
-     */
-    public function testApplyForLoanTypeErrorException($loanAmount)
-    {
-        $this->bankCustomer->applyForLoan($loanAmount);
-    }
-
-    public function typeErrorDataProvider()
+    public function loanApplicationDataProvider(): array
     {
         return [
-            ['32'],
-            [new \stdClass()],
-            [true]
+            [320.17, new TillAgent(), true],
+            [3200.18, new TillAgent(), true],
+            [4999.99, new TillAgent(), true],
+            [5000, new BranchManager(), true],
+            [5283.74, new BranchManager(), true],
+            [9999.99, new BranchManager(), true],
+            [10000, new LineManager(), true],
+            [13084.85, new LineManager(), true],
+            [19999.99, new LineManager(), true],
+            [20000, new LineManager(), false],
         ];
     }
 }

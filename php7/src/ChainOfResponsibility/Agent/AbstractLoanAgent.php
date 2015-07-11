@@ -27,11 +27,11 @@ abstract class AbstractLoanAgent
      * Handle the loan amount. In the event that the agent cannot handle the request,
      * they should redirect the request to the next agent in the chain.
      *
-     * @param LoanApplicationRequest $loanAmount
+     * @param LoanApplicationRequest $loanRequest
      *
      * @return LoanApplicationResponse
      */
-    abstract public function handleLoanAmount(LoanApplicationRequest $loanAmount): LoanApplicationResponse;
+    abstract public function handleLoanAmount(LoanApplicationRequest $loanRequest): LoanApplicationResponse;
 
     /**
      * Approve the loan request and return it to the customer.
@@ -40,9 +40,10 @@ abstract class AbstractLoanAgent
      */
     public function approveLoanRequest(): LoanApplicationResponse
     {
-        $loanResponse = new LoanApplicationResponse;
+        $loanResponse = new LoanApplicationResponse();
+
         $loanResponse
-            ->setAccepted(true)
+            ->setApproved(true)
             ->setAgent($this);
 
         return $loanResponse;
@@ -55,18 +56,18 @@ abstract class AbstractLoanAgent
      */
     public function rejectLoanRequest(): LoanApplicationResponse
     {
-        $loanResponse = new LoanApplicationResponse;
+        $loanResponse = new LoanApplicationResponse();
         $loanResponse
-            ->setAccepted(false)
+            ->setApproved(false)
             ->setAgent($this);
 
         return $loanResponse;
     }
 
     /**
-     * @return AbstractLoanAgent
+     * @return AbstractLoanAgent|null
      */
-    public function getNextInChain(): AbstractLoanAgent
+    public function getNextInChain()
     {
         return $this->nextInChain;
     }
