@@ -28,6 +28,14 @@ class BankCustomer implements BankCustomerInterface
     /**
      * @inheritDoc
      */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function applyForLoan(float $amount, LoanSystem $loanSystem): LoanApplicationResponse
     {
         $loanRequest = new LoanApplicationRequest($this, $amount);

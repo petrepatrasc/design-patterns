@@ -11,6 +11,11 @@ use PetrePatrasc\ChainOfResponsibility\LoanApplicationResponse;
 
 class TillAgent extends AbstractLoanAgent
 {
+    public function __toString(): string
+    {
+        return 'Till Agent';
+    }
+
     /**
      * @inheritDoc
      */

@@ -30,7 +30,7 @@ class LoanApplicationRequest
      * @param BankCustomer $customer
      * @param float        $amount
      */
-    public function __construct(BankCustomer $customer, float $amount)
+    public function __construct(BankCustomer $customer = null, float $amount = 0)
     {
         $this->customer = $customer;
         $this->amount   = $amount;

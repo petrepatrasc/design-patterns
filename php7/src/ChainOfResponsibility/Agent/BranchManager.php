@@ -11,6 +11,11 @@ use PetrePatrasc\ChainOfResponsibility\LoanApplicationResponse;
 
 class BranchManager extends AbstractLoanAgent
 {
+    public function __toString(): string
+    {
+        return 'Branch Manager';
+    }
+
     /**
      * @inheritDoc
      */

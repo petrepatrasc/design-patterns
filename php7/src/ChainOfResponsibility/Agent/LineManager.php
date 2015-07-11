@@ -11,6 +11,11 @@ use PetrePatrasc\ChainOfResponsibility\LoanApplicationResponse;
 
 class LineManager extends AbstractLoanAgent
 {
+    public function __toString(): string
+    {
+        return 'Line Manager';
+    }
+
     /**
      * @inheritDoc
      */

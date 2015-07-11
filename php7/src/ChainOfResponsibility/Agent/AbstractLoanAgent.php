@@ -23,6 +23,8 @@ abstract class AbstractLoanAgent
      */
     protected $nextInChain;
 
+    abstract public function __toString(): string;
+
     /**
      * Handle the loan amount. In the event that the agent cannot handle the request,
      * they should redirect the request to the next agent in the chain.
