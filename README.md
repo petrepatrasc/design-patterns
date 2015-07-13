@@ -12,7 +12,7 @@ Design patterns implemented so far:
 
 ## PHP 7
 
-At the time of this writing, PHP7 is still way ahead of its release date, so there will probably be better installation tutorials in the future. For the time being, I've set up my development environment using the deps from (php7.zend.com)[http://php7.zend.com/repo.php].
+At the time of this writing, PHP7 is still way ahead of its release date, so there will probably be better installation tutorials in the future. For the time being, I've set up my development environment using the deps from [php7.zend.com](http://php7.zend.com/repo.php).
 
 All PHP dependencies can be retrieved using Composer. The Composer version used when building the code was 1.0-dev.
 
